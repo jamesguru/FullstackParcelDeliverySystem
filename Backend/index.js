@@ -22,7 +22,6 @@ mongoose.connect(DB).then(()=>{
 console.log(err)
 })
 
-
 // SERVER
 
 const PORT = process.env.PORT;
