@@ -8,7 +8,7 @@ router.post("/",verifyToken,createParcel)
 
 // GET ALL PARCELS
 
-router.get("/", verifyTokenAndAuthorization, getAllParcels)
+router.get("/", getAllParcels)
 
 
 // UPDATE PARCEL
