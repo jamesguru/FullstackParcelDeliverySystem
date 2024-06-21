@@ -1,7 +1,7 @@
 
 const Users = () => {
   return (
-    <div>Users</div>
+    <div className="text-2xl text-white">Users</div>
   )
 }
 
