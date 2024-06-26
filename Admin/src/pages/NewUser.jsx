@@ -1,9 +1,54 @@
-
-
 const NewUser = () => {
   return (
-    <div>NewUser</div>
-  )
-}
+    <div className="m-[30px] bg-[#fff] p-[20px]">
+      <h2 className="font-semibold">New User</h2>
 
-export default NewUser
+      <div className="flex flex-col my-[20px]">
+        <label htmlFor="">Full Name</label>
+        <input
+          type="text"
+          placeholder="James Doe"
+          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
+        />
+      </div>
+      <div className="flex flex-col my-[20px]">
+        <label htmlFor="">Email</label>
+        <input
+          type="text"
+          placeholder="jamesdoe@gmail.com"
+          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
+        />
+      </div>
+      <div className="flex flex-col my-[20px]">
+        <label htmlFor="">Age</label>
+        <input
+          type="Number"
+          placeholder="30"
+          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
+        />
+      </div>
+      <div className="flex flex-col my-[20px]">
+        <label htmlFor="">Country</label>
+        <input
+          type="text"
+          placeholder="Australia"
+          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
+        />
+      </div>
+      <div className="flex flex-col my-[20px]">
+        <label htmlFor="">Address</label>
+        <input
+          type="text"
+          placeholder="Laura Avenue, Australia"
+          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
+        />
+      </div>
+
+      <button className="bg-[#1e1e1e] cursor-pointer text-white p-[10px] w-[300px]">
+        Create
+      </button>
+    </div>
+  );
+};
+
+export default NewUser;
