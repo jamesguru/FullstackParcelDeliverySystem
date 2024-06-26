@@ -91,7 +91,6 @@ const Parcel = () => {
             Update
           </button>
         </div>
-
         <div className="flex flex-col">
           <h2 className="font-semibold">Feedback</h2>
           <span>Goods received in good condition.</span>
