@@ -1,4 +1,26 @@
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { publicRequest } from "../requestMethods";
+
 const NewParcel = () => {
+  const [inputs, setInputs] = useState({});
+
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
+  const handleAddParcel = async () => {
+    try {
+      await publicRequest.post("/parcels", inputs);
+      toast.success("Parcel has been successfully saved to the database.")
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="m-[30px] bg-[#fff] p-[20px]">
       <h2 className="font-semibold">New Parcel</h2>
@@ -8,6 +30,8 @@ const NewParcel = () => {
             <label htmlFor="">From</label>
             <input
               type="text"
+              name="from"
+              onChange={handleChange}
               placeholder="Ontario USA"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -16,6 +40,8 @@ const NewParcel = () => {
             <label htmlFor="">To</label>
             <input
               type="text"
+              name="to"
+              onChange={handleChange}
               placeholder="Michigan, USA"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -24,6 +50,8 @@ const NewParcel = () => {
             <label htmlFor="">Sender Name</label>
             <input
               type="text"
+              name="sendername"
+              onChange={handleChange}
               placeholder="James Doe"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -32,6 +60,8 @@ const NewParcel = () => {
             <label htmlFor="">Recipient Name</label>
             <input
               type="text"
+              name="recipientname"
+              onChange={handleChange}
               placeholder="Jane Doe"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -40,6 +70,8 @@ const NewParcel = () => {
             <label htmlFor="">Sender Email</label>
             <input
               type="text"
+              name="senderemail"
+              onChange={handleChange}
               placeholder="jamesdoe@gmail.com"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -49,6 +81,8 @@ const NewParcel = () => {
             <label htmlFor="">Recipient Email</label>
             <input
               type="text"
+              name="recipientemail"
+              onChange={handleChange}
               placeholder="janedoe@gmail.com"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -59,6 +93,8 @@ const NewParcel = () => {
             <label htmlFor="">Weight</label>
             <input
               type="Number"
+              name="weight"
+              onChange={handleChange}
               placeholder="200g"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -67,6 +103,8 @@ const NewParcel = () => {
             <label htmlFor="">Cost</label>
             <input
               type="Number"
+              name="cost"
+              onChange={handleChange}
               placeholder="$200"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
@@ -75,7 +113,9 @@ const NewParcel = () => {
             <label htmlFor="">Date</label>
             <input
               type="date"
-              placeholder="James Doe"
+              name="date"
+              onChange={handleChange}
+              placeholder="20/06/2024"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
           </div>
@@ -83,13 +123,19 @@ const NewParcel = () => {
             <label htmlFor="">Note</label>
             <textarea
               type="text"
+              name="note"
+              onChange={handleChange}
               placeholder="Perishable goods"
               className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
             />
           </div>
-          <button className="bg-[#1e1e1e] cursor-pointer text-white p-[10px] w-[300px]">
+          <button
+            className="bg-[#1e1e1e] cursor-pointer text-white p-[10px] w-[300px]"
+            onClick={handleAddParcel}
+          >
             Create
           </button>
+          <ToastContainer />
         </div>
       </div>
     </div>

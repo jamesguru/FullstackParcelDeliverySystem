@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 const Myparcels = () => {
   const [open, setOpen] = useState(false);
 
@@ -17,9 +17,11 @@ const Myparcels = () => {
         {open && (
           <div className="absolute top-[20px] right-0 h-[200px] w-[250px] bg-[#d9d9d9] z-[999] shadow-xl">
             <ul className="flex flex-col items-center justify-center mt-[10px] text-[#555]">
-              <li className="hover:text-[#fff] my-[5px] cursor-pointer">
-                All Parcels
-              </li>
+              <Link to="/allparcels">
+                <li className="hover:text-[#fff] my-[5px] cursor-pointer">
+                  All Parcels
+                </li>
+              </Link>
               <li className="hover:text-[#fff] my-[5px] cursor-pointer">
                 Statements
               </li>

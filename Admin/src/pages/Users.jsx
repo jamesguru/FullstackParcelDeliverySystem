@@ -1,10 +1,16 @@
 import { DataGrid } from "@mui/x-data-grid";
+
+import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { publicRequest } from "../requestMethods";
+
 const Users = () => {
+  const [data, setData] = useState([]);
+
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    { field: "fullName", headerName: "Full Name", width: 200 },
+    { field: "_id", headerName: "ID", width: 90 },
+    { field: "fullname", headerName: "Full Name", width: 200 },
     { field: "email", headerName: "Email", width: 250 },
     { field: "age", headerName: "Age", type: "number", width: 100 },
 
@@ -13,110 +19,55 @@ const Users = () => {
       field: "delete",
       headerName: "Delete",
       width: 150,
-      rendercell: () => {
+      renderCell: (params) => {
         return (
           <>
-            <FaTrash />
+            <FaTrash className="text-red-500 cursor-pointer m-2"  onClick={() => handleDelete(params.row._id)}/>
           </>
         );
       },
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      fullName: "John Doe",
-      email: "john.doe@example.com",
-      age: 30,
-      country: "USA",
-      address: "123 Main St, New York, NY",
-    },
-    {
-      id: 2,
-      fullName: "Alice Brown",
-      email: "alice.brown@example.com",
-      age: 25,
-      country: "Canada",
-      address: "456 Maple Ave, Toronto, ON",
-    },
-    {
-      id: 3,
-      fullName: "Chris Evans",
-      email: "chris.evans@example.com",
-      age: 35,
-      country: "USA",
-      address: "789 Oak St, Houston, TX",
-    },
-    {
-      id: 4,
-      fullName: "Laura Wilson",
-      email: "laura.wilson@example.com",
-      age: 28,
-      country: "UK",
-      address: "101 Pine Rd, London",
-    },
-    {
-      id: 5,
-      fullName: "Peter Parker",
-      email: "peter.parker@example.com",
-      age: 22,
-      country: "USA",
-      address: "202 Elm St, Phoenix, AZ",
-    },
-    {
-      id: 6,
-      fullName: "Tony Stark",
-      email: "tony.stark@example.com",
-      age: 48,
-      country: "USA",
-      address: "303 Cedar Blvd, Boston, MA",
-    },
-    {
-      id: 7,
-      fullName: "Bruce Wayne",
-      email: "bruce.wayne@example.com",
-      age: 40,
-      country: "USA",
-      address: "404 Birch Ln, Detroit, MI",
-    },
-    {
-      id: 8,
-      fullName: "Diana Prince",
-      email: "diana.prince@example.com",
-      age: 32,
-      country: "USA",
-      address: "505 Fir Ave, San Diego, CA",
-    },
-    {
-      id: 9,
-      fullName: "Natasha Romanoff",
-      email: "natasha.romanoff@example.com",
-      age: 29,
-      country: "Russia",
-      address: "606 Spruce St, Moscow",
-    },
-    {
-      id: 10,
-      fullName: "Scott Lang",
-      email: "scott.lang@example.com",
-      age: 37,
-      country: "USA",
-      address: "707 Willow Dr, Las Vegas, NV",
-    },
-  ];
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const res = await publicRequest.get("/users");
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getUsers();
+  }, []);
+
+
+  const handleDelete = async (id) => {
+      try {
+        await publicRequest(`/users/${id}`);
+        window.location.reload();
+      } catch (error) {
+        console.log(error)
+      }
+  } 
 
   return (
     <div className="m-[30px] bg-[#fff] p-[20px]">
       <div className="flex items-center justify-between">
         <h1 className="m-[20px] text-[20px]">All Users</h1>
         <Link to="/newuser">
-        <button className="bg-[#1e1e1e] text-white p-[10px] cursor-pointer">
-          New User
-        </button>
+          <button className="bg-[#1e1e1e] text-white p-[10px] cursor-pointer">
+            New User
+          </button>
         </Link>
       </div>
-      <DataGrid rows={rows} columns={columns} checkboxSelection />
+      <DataGrid
+        rows={data}
+        columns={columns}
+        getRowId={(row) => row._id}
+        checkboxSelection
+      />
     </div>
   );
 };
