@@ -1,6 +1,25 @@
+import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { publicRequest } from "../requestMethods";
+
 const Parcel = () => {
+  const location = useLocation();
+  const [parcel, setParcel] = useState({})
+  const parcelId = location.pathname.split("/")[2];
+
+  useEffect(() =>{
+    const getParcel = async() =>{
+      try {
+        const res = await publicRequest.get("/parcels/find/" + parcelId);
+        setParcel(res.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getParcel()
+  } ,[parcelId])
   return (
     <div className="flex flex-col items-center justify-center mt-[3%] mr-[5%] ml-[5%]">
       <div className="bg-[#fff] h-[80vh] w-[60vw] rounded-md">
@@ -11,26 +30,26 @@ const Parcel = () => {
         <div className="flex justify-between">
           <div className="flex-1">
             <ul className="m-3 text-[#444]">
-              <li className="mt-3">From: 101 Pine St, Seattle, WA 98101 </li>
-              <li className="mt-3">Weight: 200g </li>
-              <li className="mt-3">Date: 20/06/2024</li>
-              <li className="mt-3">Sender: James Doe </li>
-              <li className="mt-3">To: Ontario, USA </li>
-              <li className="mt-3">Cost: $200 </li>
-              <li className="mt-3">Recipient: Jane Doe </li>
-              <li className="mt-3">Track ID: 1728299</li>
-              <li className="mt-3">Note: Perishable goods </li>
+              <li className="mt-3">From: {parcel.from} </li>
+              <li className="mt-3">Weight: {parcel.weight} </li>
+              <li className="mt-3">Date: {parcel.date}</li>
+              <li className="mt-3">Sender: {parcel.sendername} </li>
+              <li className="mt-3">To: {parcel.to} </li>
+              <li className="mt-3">Cost: ${parcel.cost} </li>
+              <li className="mt-3">Recipient: {parcel.recipientname}</li>
+              <li className="mt-3">Track ID: {parcel._id}</li>
+              <li className="mt-3">Note: {parcel.note} </li>
             </ul>
 
-            <button className="bg-[#555] text-white w-[200px] cursor-pointer p-[10px] m-[20px]">
-              Pending
+            <button className={parcel.status === 1 ? "bg-[#555] text-white w-[100px] cursor-pointer p-[5px]" : "bg-[#21b134] text-white w-[100px] cursor-pointer p-[5px]"}>
+              {parcel.status === 1 ? "Pending" : "Delivered"}
             </button>
           </div>
 
           <div className="flex-1">
             <ul className="m-3 text-[#444]">
-              <li className="mt-3">Sender Email: jamesdoe@gmail.com </li>
-              <li className="mt-3">Recipient Email: janedoe@gmail.com </li>
+              <li className="mt-3">Sender Email: {parcel.senderemail} </li>
+              <li className="mt-3">Recipient Email: {parcel.recipientemail}</li>
             </ul>
 
             <textarea
